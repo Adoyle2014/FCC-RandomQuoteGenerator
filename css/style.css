@@ -1,0 +1,17 @@
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    padding: 10px 0;
+}
+
+.center {
+    text-align: center;
+}
+
+#well {
+    width: 75%;
+    margin: 20px auto 30px auto;
+    text-align: center;
+
+}
+

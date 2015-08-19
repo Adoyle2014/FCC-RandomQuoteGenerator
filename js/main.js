@@ -1,42 +1,58 @@
 $(document).ready(function() {
-   function corsRequest() {
-       $.ajax({
-           type: 'GET',
-           url: 'http://api.forismatic.com/api/1.0/',
-           contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-           xhrFields: {
-               method: "getQuote",
-               format: "jsonp",
-               lang: "en"
-           },
-           headers: {
-               'Access-Control-Allow-Origin': "*"
-           },
+    $("#newQuote").on('click', function() {
+        $("#well").fadeOut(1000);
+        //add getQuote function call here
+        makeCorsRequest();
+        $("#well").fadeIn(400);
+    });
 
 
-           success: function (data) {
-               parseQuote(data);
-           },
-           error: function () {
-               document.getElementById("quote").innerHTML = "There was an error with your request.  Please try again.";
-           }
-
-       });
-   }
-
-
-    function parseQuote(response)
-    {
-        console.log(response);
-        /*
-        document.getElementById("quote").innerHTML = response.quoteText;
-        document.getElementById("author").innerHTML = response.quoteAuthor;
-        */
+    // Create the XHR object.
+    function createCORSRequest(method, url) {
+        var xhr = new XMLHttpRequest();
+        if ("withCredentials" in xhr) {
+            // XHR for Chrome/Firefox/Opera/Safari.
+            xhr.open(method, url, true);
+        } else if (typeof XDomainRequest != "undefined") {
+            // XDomainRequest for IE.
+            xhr = new XDomainRequest();
+            xhr.open(method, url);
+        } else {
+            // CORS not supported.
+            xhr = null;
+        }
+        return xhr;
     }
 
-    $("#newQuote").on("click", function(e) {
-        e.preventDefault();
-        corsRequest();
-    })
+// Helper method to parse the title tag from the response.
+ ///   function getTitle(text) {
+    //    return text.match('<title>(.*)?</title>')[1];
+   // }
+
+// Make the actual CORS request.
+    function makeCorsRequest() {
+        // All HTML5 Rocks properties support CORS.
+        var url = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
+
+        var xhr = createCORSRequest('GET', url);
+        if (!xhr) {
+            alert('CORS not supported');
+            return;
+        }
+
+        // Response handlers.
+        xhr.onload = function() {
+            var text = xhr.responseText;
+            //var title = getTitle(text);
+            alert(text);
+        };
+
+        xhr.onerror = function() {
+            alert('Woops, there was an error making the request.');
+        };
+
+        xhr.send();
+    }
+
 
 });
