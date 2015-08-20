@@ -1,13 +1,20 @@
 $(document).ready(function() {
+
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+//Button click watcher and animation
     $("#newQuote").on('click', function() {
-        $("#well").fadeOut(1000);
-        //add getQuote function call here
-        makeCorsRequest();
-        $("#well").fadeIn(400);
+        $("#well").fadeOut(1000,function() {
+            makeCorsRequest();
+        });
+        $("#well").fadeIn(1000);
     });
 
 
-    // Create the XHR object.
+
+
+// Create the XHR object.
     function createCORSRequest(method, url) {
         var xhr = new XMLHttpRequest();
         if ("withCredentials" in xhr) {
@@ -24,15 +31,11 @@ $(document).ready(function() {
         return xhr;
     }
 
-// Helper method to parse the title tag from the response.
- ///   function getTitle(text) {
-    //    return text.match('<title>(.*)?</title>')[1];
-   // }
 
 // Make the actual CORS request.
     function makeCorsRequest() {
-        // All HTML5 Rocks properties support CORS.
-        var url = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
+
+        var url = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=xml';
 
         var xhr = createCORSRequest('GET', url);
         if (!xhr) {
@@ -43,16 +46,43 @@ $(document).ready(function() {
         // Response handlers.
         xhr.onload = function() {
             var text = xhr.responseText;
-            //var title = getTitle(text);
-            alert(text);
+            parseQuote(text);
+
         };
 
         xhr.onerror = function() {
-            alert('Woops, there was an error making the request.');
+            alert('Oops, there was an error in your request! Please try again.');
         };
 
         xhr.send();
     }
 
+
+// Place quotes and authors in HTML
+    function parseQuote(response) {
+        var quote = getQuote(response);
+        var author = getAuthor(response);
+        var wikiAuthor = author.replace(/-\s/, "");
+        var wikiHref = 'https://en.wikipedia.org/wiki/'+wikiAuthor+'';
+        document.getElementById("quote").innerHTML = quote;
+        document.getElementById("author").innerHTML = author;
+        $("#wiki").attr({"href": wikiHref, "target": "_blank"});
+    }
+
+
+//Helper functions to get data from XML response
+    function getQuote(text) {
+        return text.match('<quoteText>(.*)?</quoteText>')[1];
+    }
+
+    function getAuthor(text) {
+        var author = text.match('<quoteAuthor>(.*)?</quoteAuthor>')[1];
+
+        if(author === undefined) {
+            return author = "- Anonymous";
+        } else {
+            return "- " + author;
+        }
+    }
 
 });

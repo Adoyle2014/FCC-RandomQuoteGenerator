@@ -1,7 +1,11 @@
+body {
+    background-color: #222222;
+}
 h1 {
     text-align: center;
     margin: 20px 0;
     padding: 10px 0;
+    color: #cccccc;
 }
 
 .center {
@@ -15,3 +19,38 @@ h1 {
 
 }
 
+#quote {
+    font-family: 'Itim', cursive;
+    font-size: 2em;
+}
+
+#author {
+    color: #5e5e5e;
+    font-size: 1.5em;
+}
+i {
+    padding: 0 10px;
+}
+
+i:nth-child(1) {
+    color: #ccc;
+}
+
+i:nth-child(1):hover {
+    opacity: .7;
+}
+
+a:nth-child(2) i {
+    color: #4183c4;
+}
+
+i:nth-child(2):hover {
+    opacity: .7;
+}
+
+@media(max-width: 990px) {
+    #social {
+        text-align: center;
+        margin-top: 20px;
+    }
+}
