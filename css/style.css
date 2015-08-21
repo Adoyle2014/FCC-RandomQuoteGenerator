@@ -28,23 +28,34 @@ h1 {
     color: #5e5e5e;
     font-size: 1.5em;
 }
-i {
+
+#social {
+    width: 75%;
+    margin: 0 auto;
+
+}
+
+#tweet {
+    float: left;
+    margin: 0;
     padding: 0 10px;
 }
 
-i:nth-child(1) {
+a:nth-child(1) i {
     color: #ccc;
+    padding: 0 15px;
 }
 
-i:nth-child(1):hover {
+a:nth-child(1) i:hover {
     opacity: .7;
 }
 
 a:nth-child(2) i {
     color: #4183c4;
+    padding: 0 15px;
 }
 
-i:nth-child(2):hover {
+a:nth-child(2) i:hover {
     opacity: .7;
 }
 

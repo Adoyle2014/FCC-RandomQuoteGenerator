@@ -9,7 +9,23 @@ $(document).ready(function() {
             makeCorsRequest();
         });
         $("#well").fadeIn(1000);
+
     });
+
+    function reloadTweet(quoteText) {
+        console.log(quoteText);
+        $("#tweet iframe").remove();
+        var tweetBtn = $('<a></a>')
+            .addClass("twitter-share-button")
+            .attr("id", "tweet twitter-wjs")
+            .attr("data-url", "none")
+            .attr("data-count", "none")
+            .attr("data-text", quoteText)
+            .attr("data-via", "doylewaredsign")
+            .attr("data-size", "large");
+        $("#tweet").append(tweetBtn);
+        twttr.widgets.load();
+    }
 
 
 
@@ -63,10 +79,13 @@ $(document).ready(function() {
         var quote = getQuote(response);
         var author = getAuthor(response);
         var wikiAuthor = author.replace(/-\s/, "");
-        var wikiHref = 'https://en.wikipedia.org/wiki/'+wikiAuthor+'';
+        var wikiHref = 'https://en.wikipedia.org/wiki/' + wikiAuthor + '';
+        var tweetQuote = quote + " -" + author;
+
         document.getElementById("quote").innerHTML = quote;
         document.getElementById("author").innerHTML = author;
         $("#wiki").attr({"href": wikiHref, "target": "_blank"});
+        reloadTweet(tweetQuote);
     }
 
 
