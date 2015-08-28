@@ -21,7 +21,7 @@ $(document).ready(function() {
             .attr("data-url", "none")
             .attr("data-count", "none")
             .attr("data-text", quoteText)
-            .attr("data-via", "doylewaredsign")
+            .attr("data-via", "doylewaredesign")
             .attr("data-size", "large");
         $("#tweet").append(tweetBtn);
         twttr.widgets.load();
